@@ -1,0 +1,14 @@
+span {
+  color: red;
+  font-size: x-small;
+}
+.blue {
+  background-color: rgb(175, 175, 175);
+}
+@media screen and (max-width: 1200px) {
+  #legion {
+    width: 300px;
+    height: 300px;
+    text-align: center;
+  }
+}
