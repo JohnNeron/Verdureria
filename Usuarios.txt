@@ -1,0 +1,7 @@
+ADMIN:
+user: Neron
+pass: 12345
+
+CLIENTE:
+user: Pedro
+pass: 123
