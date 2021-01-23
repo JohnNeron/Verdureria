@@ -14,7 +14,7 @@
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <title>Nuevo producto</title>
 </head>
-<body>
+<body class="body">
 <div class="wrapper">
   <h1>Agregar un producto</h1>
   <form:form action="/ingresarProducto" method="POST" modelAttribute="producto">

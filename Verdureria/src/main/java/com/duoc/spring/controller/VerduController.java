@@ -60,32 +60,37 @@ public class VerduController {
 	}
 	
 	@GetMapping("/registrar")
-	public String registrar(Model model) {
+	public String registrar(Model model, Authentication auth) {
 		model.addAttribute("roles", repoR.findAll());
-		return "registro";
+		if(auth == null) {
+			return "registro";
+		} else if(auth.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN")))
+		{
+			return "registroB";
+		} else {
+			return "registro";
+		}
 	}
 	
 	@PostMapping("/agregarUsuario")
-	public String agregarUsuario(@Valid @ModelAttribute("usuario")Usuario u, BindingResult br, Model model) {
+	public String agregarUsuario(@Valid @ModelAttribute("usuario")Usuario u, BindingResult br, Model model, Authentication auth) {
 		if(br.hasErrors()) {
 			model.addAttribute("roles", repoR.findAll());
 			return "registro";
 		} else {
 			u.setPassword(encoder.encode(u.getPassword()));
 			repoU.save(u);
-			return "index";
+			if(auth == null) {
+				return "confirmacionB";
+			} else {
+				return "confirmacion";
+			}
 		}
 	}
 	
 	@GetMapping("/listar")
 	public String getVer(Authentication auth, String id, Model model) {
-		listar(model);
-		if(auth.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN")))
-		{
-			return "verProductos";
-		} else {
-			return "verCliente";
-		}
+		return listar(model, auth);
 	}
 	
 	@PostMapping("/agregarProducto")
@@ -99,13 +104,7 @@ public class VerduController {
 			return "agregarProducto";
 		} else {
 			repoP.save(p);
-			listar(model);
-			if(auth.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN")))
-			{
-				return "verProductos";
-			} else {
-				return "verCliente";
-			}
+			return "confirmacion";
 		}
 	}
 	
@@ -122,19 +121,48 @@ public class VerduController {
 		} else {
 			repoP.save(p);
 			model.addAttribute("productos", p);
-			listar(model);
-			if(auth.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN"))) {
-				return "verProductos";
-			} else {
-				return "verCliente";
-			}
+			return "confirmacion";
 		}
 	}
 	
 	@PostMapping("/EliminarProducto")
 	public String eliminarProducto(String id, Model model, Authentication auth) {
 		repoP.deleteById(Integer.parseInt(id));
-		listar(model);
+		return "confirmacion";
+	}
+	
+	@GetMapping("verUsuario")
+	public String verUsuarios(Authentication auth, Model model) {
+		return listarUsuario(model);
+	}
+	
+	@PostMapping("/CargarUsuario")
+	public String cargarUsuario(String id, Model model) {
+		model.addAttribute("roles", repoR.findAll());
+		model.addAttribute("usuario",repoU.getOne(Integer.parseInt(id)));
+		return "modificarUsuario";
+	}
+	
+	@PostMapping("/modificarUsuario")
+	public String modificarUsuario(@Valid @ModelAttribute("usuario")Usuario u, BindingResult br, Model model) {
+		if(br.hasErrors()) {
+			model.addAttribute("roles", repoR.findAll());
+			return "modificarUsuario";
+		} else {
+			repoU.save(u);
+			return "confirmacion";
+		}
+	}
+	
+	@PostMapping("/EliminarUsuario")
+	public String eliminarUsuario(String id, Model model) {
+		repoU.deleteById(Integer.parseInt(id));
+		return "confirmacion";
+	}
+	
+	private String listar(Model model, Authentication auth) {
+		List<Producto> productos = repoP.findAll();
+		model.addAttribute("productos", productos);
 		if(auth.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN"))) {
 			return "verProductos";
 		} else {
@@ -142,8 +170,9 @@ public class VerduController {
 		}
 	}
 	
-	private void listar(Model model) {
-		List<Producto> productos = repoP.findAll();
-		model.addAttribute("productos", productos);
+	private String listarUsuario(Model model) {
+		List<Usuario> usuarios = repoU.findAll();
+		model.addAttribute("usuarios", usuarios);
+		return "verUsuarios";
 	}
 }

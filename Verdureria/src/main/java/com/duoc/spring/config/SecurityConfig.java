@@ -36,7 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		.permitAll()
 		.antMatchers("/registrar", "/agregarUsuario")
 		.permitAll()
-		.antMatchers("/CargarProducto", "/modificar", "/ingresarProducto")
+		.antMatchers("/CargarProducto", "/modificar", "/ingresarProducto", "/CargarUsuario", "/modificarUsuario")
 		.hasAuthority("ADMIN")
 		.anyRequest()
 		.authenticated()

@@ -16,7 +16,7 @@
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <title>Registrate</title>
 </head>
-<body>
+<body class="body3">
 <div class="wrapper">
   <h1>Crear Una cuenta</h1>
   <p>To sign-up for a free basic account please provide us with some basic information using
@@ -31,9 +31,11 @@
       <p class="email-help">Please enter your new password.</p>
     </div>
     <form:hidden path="rol" value="2"/>
-    <input type="submit" class="submit" value="Register">
+    <input type="submit" class="submit" value="Registrar">
     </form:form><br>
-    <input type="submit" class="submit" value="Volver">
+    <form:form action="/" method="GET">
+    	<input type="submit" class="submit" value="Volver">
+    </form:form>
 </div>
 <p class="optimize">
   Optimized for Chrome & Firefox!

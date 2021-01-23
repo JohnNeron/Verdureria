@@ -10,47 +10,43 @@
 	<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="js/jquery.min.js"></script>
-	<link rel="stylesheet" href="css/formStyle.css">
+	<link rel="stylesheet" href="css/formStyle2.css">
 	<script src="js/form.js"></script>
-<title>Administrar Producto</title>
+<title>Administrar Usuarios</title>
 </head>
 <body>
 	<nav>
 		<ul class="topnav">
 		  <li><a href="/">Inicio</a></li>
-		  <li><a class="active" href="#news">Ver Productos</a></li>
-		  <li><a href="/verUsuario">Ver Usuarios Registrados</a></li>
-		  <li><a href="/registrar">Registrar Cliente</a></li>
-		  <li class="right"><a href="/logout">Cerrar SesiÃ³n</a>
+		  <li><a href="/listar">Ver Productos</a></li>
+		  <li><a class="active" href="/listarUsuario">Ver Usuarios</a></li>
+		  <li class="right"><a href="/logout">Cerrar Sesión</a>
 		</ul>
 	</nav>
 	<section>
 	  <!--for demo wrap-->
-	  <h1>Productos Agregados</h1>
+	  <h1>Usuarios Registrados</h1>
 	  <div class="tbl-content">
 	    <table cellpadding="0" cellspacing="0" border="0">
-	      	<th style="width: 100px"> ID</th>
-	      	<th style="width: 250px"> Nombre</th>
-			<th style="width: 250px"> Stock</th>
-			<th style="width: 250px"> Precio</th>
+	    	
+	      	<th style="width: 450px"> Nombre de Usuario</th>
+			<th style="width: 450px"> Rol</th>
 			<th style="width: 100px"> Acciones</th>
-			<c:forEach items="${productos}" var="p">
+			<c:forEach items="${usuarios}" var="u">
 				<tbody id="myTable">
 					<tr>
-						<td>${p.id}</td>
-						<td>${p.nombre}</td>
-						<td>${p.stock}</td>
-						<td>${p.precio}</td>
+						<td>${u.username}</td>
+						<td>${u.rol.nombre}</td>
 						<td>
-							<form action="/EliminarProducto" method="POST">
-								<input type="hidden" name="id" value="${p.id}"> 
+							<form action="/EliminarUsuario" method="POST">
+								<input type="hidden" name="id" value="${u.id}"> 
 								<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-								<input type="submit" class="button button5" onclick="return confirmEliminar(${p.id})"	value="Eliminar">
+								<input type="submit" class="button button5" onclick="return confirmEliminar(${u.id})"	value="Eliminar">
 							</form>
 						</td>
 						<td>
-							<form action="/CargarProducto" method="POST">
-							<input type="hidden" name="id" value="${p.id}">
+							<form action="/CargarUsuario" method="POST">
+							<input type="hidden" name="id" value="${u.id}">
 							<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"> 
 							<input type="submit" class="button button5" value="Modificar">
 							</form>
@@ -60,10 +56,8 @@
 			</c:forEach>	
 	   	 </table>
 	  </div>
-	  <form action="/agregarProducto" method="POST">
-	     		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"> 
-				<input type="submit" class="submit button3" value="Agregar Producto">
+	  <form action="/registrar" method="GET">
+				<input type="submit" class="submit button3" value="Agregar Nuevo Usuario">
 		 </form>
 	</section>
 </body>
-</html>
