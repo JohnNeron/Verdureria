@@ -32,6 +32,7 @@
     </form:form>
 </div>
 <p class="optimize">
+
   Optimized for Chrome & Firefox!
 </p>
 </body>
